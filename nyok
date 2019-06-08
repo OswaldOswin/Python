@@ -1,0 +1,57 @@
+class Tree:
+    def __init__(self, data):
+        self.root = Node(data)
+
+    def insert(self, data):
+        self.root.insert(data)
+
+    def sumLeaves(self, node=None):
+    #если узла нет то это корень=узел
+        if not node:
+            node = self.root
+
+        sum = 0
+#если в узле нет значения
+        if not node.data:
+            return sum
+#если в узле нет лево/право это лист
+        if (node.left is None) and (node.right is None):
+            return node.data
+#если есть дети идем дальше
+        else:
+            if node.left is not None:
+                sum += self.sumLeaves(node.left)
+            if node.right is not None:
+                sum += self.sumLeaves(node.right)
+            return sum
+
+
+class Node:
+    def __init__(self, data):
+        self.left = None
+        self.right = None
+        self.data = data
+# если число больше родительской точки то лево иначе право
+    def insert(self, data):
+        if self.data:
+            if data < self.data:
+                if self.left is None:
+                    self.left = Node(data)
+                else:
+                    self.left.insert(data)
+            else:
+                if self.right is None:
+                    self.right = Node(data)
+                else:
+                    self.right.insert(data)
+        else:
+            self.data = data
+
+
+if __name__ == "__main__":
+    tree = Tree(4)
+
+    tree.insert(10)
+    tree.insert(3)
+
+    print(tree.sumLeaves())
